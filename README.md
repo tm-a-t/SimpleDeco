@@ -36,20 +36,30 @@ def f(x, y):
 f(1, 50000)
 ```
 
-**Without SimpleDeco**, the `count_time` function would be similar to this:
+The similar code **without SimpleDeco**:
 
 ```python
+from time import time
+
+
 def count_time(iterations: int):
     def decorator(func):
         def wrapper(*args, **kwargs):
             t1 = time()
             for _ in range(iterations):
-                wrapped.func(*wrapped.args, **wrapped.kwargs)
+                func(*args, **kwargs)
             t2 = time()
             print('time:', (t2 - t1) / iterations)
 
         return wrapper
     return decorator
+
+@count_time(1000)
+def f(x, y):
+    return sum(range(x, y))
+
+
+f(1, 50000)
 ```
 
 Pretty more complex.
@@ -91,7 +101,7 @@ Sometimes you need to do something after wrapping a function or before decoratin
 There are special SimpleDeco methods for that.
 
 - `simpledeco.after_wrapping` decorates a function that takes wrapped SimpleDeco and wrapper as arguments
-- `simpledeco.after_wrapping` decorates a function that takes wrapped SimpleDeco and decorator as arguments
+- `simpledeco.before_decorating` decorates a function that takes wrapped SimpleDeco and decorator as arguments
 
 For example:
 
@@ -137,7 +147,7 @@ With arguments (1, 50000)
 time: 0.0022199389934539795
 ```
 
-**Without SimpleDeco**, the code above could be rewritten as follows:
+Compare with similar code **without SimpleDeco**:
 
 ```python
 from time import time
@@ -164,6 +174,6 @@ def f(x, y):
     return sum(range(x, y))
 ```
 
-## License
+# License
 
 This project is licensed under the terms of the MIT license.
