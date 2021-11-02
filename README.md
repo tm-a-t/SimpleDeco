@@ -11,17 +11,17 @@ Let's create a `count_time(iterations)` decorator, which runs the given function
 
 ```python
 from time import time
-from simpledeco import SimpleDeco, Wrapped
+from src.simpledeco import SimpleDeco, Wrapped
 
 
 @SimpleDeco
 def count_time(wrapped: Wrapped, iterations: int):
     t1 = time()
-    
+
     for _ in range(iterations):
         # run the wrapped func with given arguments
         wrapped.func(*wrapped.args, **wrapped.kwargs)
-    
+
     t2 = time()
     print('time:', (t2 - t1) / iterations)
 
@@ -107,17 +107,17 @@ For example:
 
 ```python
 from time import time
-from simpledeco import SimpleDeco
+from src.simpledeco import SimpleDeco
 
 
 @SimpleDeco
 def count_time(wrapped, iterations):
     t1 = time()
-    
+
     for _ in range(iterations):
         # run the wrapped func with given arguments
         wrapped.func(*wrapped.args, **wrapped.kwargs)
-    
+
     t2 = time()
     print('time:', (t2 - t1) / iterations)
 
@@ -128,13 +128,13 @@ def after_wrapping(count_time_wrapped, wrapper):
     print('With arguments (1, 50000)')
     wrapper(1, 50000)
 
-    
+
 @count_time.before_decorating
 def before_decorating(count_time_wrapped, decorator):
     print('Generated decorator with argument:', count_time_wrapped.arguments.iterations)
     # 'decorator' is the generated decorator
 
-    
+
 @count_time(1000)
 def f(x, y):
     return sum(range(x, y))
